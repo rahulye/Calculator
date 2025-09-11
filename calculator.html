@@ -73,8 +73,8 @@
     ">.</button>
 
     <button onclick="
-      calculation = eval(calculation);
-      console.log(calculation);
+      calculation = eval(calculation);  // If the argument is an expression, eval() evaluates the expression
+      displayCalculation();
     ">=</button>
 
     <button onclick="
@@ -85,17 +85,34 @@
   <p>
     <button onclick="
       calculation = '';
-      console.log(calculation);
+
+      localStorage.setItem('result', JSON.stringify(calculation));
+
+      displayCalculation();
+
     ">Clear</button>
   </p>
 
-  <script>
-    let calculation = '';
+  <p class="js-displayCalculation"></p>
+
+  <script>    // JSON.stringify/parse no need (since our calculation is already a string)
+
+    let calculation = JSON.parse(localStorage.getItem('result')) || '';   
 
     function updateCalculation(value) {
       calculation += value;
-      console.log(calculation);
+      displayCalculation();
+
+      localStorage.setItem('result' , JSON.stringify(calculation));
     }
+
+    function displayCalculation()
+    {
+      const displayElement = document.querySelector('.js-displayCalculation');
+      displayElement.innerHTML = calculation;
+    }
+
+
   </script>
 
 </body>
